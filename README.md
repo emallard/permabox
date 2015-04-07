@@ -11,7 +11,7 @@ http://symfony.com/fr/doc/current/book/installation.html#option-1-composer
 Change app/config_prod.yml:
 
 site:
-    directory: ../../permatroncfiles
+    directory: ../../PERMABOX_data/
 
 # Change html:
 
