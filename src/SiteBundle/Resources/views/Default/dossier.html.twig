@@ -1,0 +1,78 @@
+{% extends 'SiteBundle::Default/squelette.html.twig' %}
+
+{% block body %}
+            
+<div class="container" style="margin-top:20px;">
+        
+        
+        <div class="container" style="margin-top:20px;">
+           
+            <h3>
+                {{dossier.relativePath}}
+            </h3>
+
+
+
+            <div class='panel panel-default' style="min-height: 20px;padding:10px;">
+               {{dossier.description}}
+            </div>
+
+            <hr>
+
+            {%if not isRootDirectory%}
+
+                <div style="display:inline-block; width:100px;"></div>
+                    <a href="../" class="underlined"><img src="{{ asset('bundles/site/css/parent.png') }}"/> Dossier parent </a>
+                    <br>
+            {%endif%}
+                
+
+            {% for file in dossier.files %}
+                
+                {% if file.isDir %}
+                
+                    <div style="display:inline-block; width:100px;">
+                        <a href="{{file.url}}?zip" class="underlined" > Télécharger </a>
+                    </div>
+                        
+                    <a href="{{file.url}}" class="underlined">
+                        <img src="{{ asset('bundles/site/css/folder.png') }}"/>
+                        {{file.name}}
+                    </a><br>
+        
+                {% else %}
+                    
+                <div style="display:inline-block; width:100px;">
+                    <a href="{{file.url}}" class="underlined" download="{{file.name}}"> Télécharger </a>
+                </div>
+                
+                <a href="{{file.url}}" class="underlined">
+                    <img src="{{ asset('bundles/site/css/file.png') }}"/>
+                    {{file.name}}
+                </a><br>
+                    
+                {% endif %}
+        
+            {% endfor %}
+            
+            <hr>
+
+            {% for file in rootDirectories %}
+                <div style='display: inline-block'>
+                    <a href="{{file.url}}" class="underlined">
+                        {{file.name}}
+                    </a>
+                </div>
+                
+            {%endfor%}
+
+        </div>
+
+        
+        
+        
+        
+
+
+
+{% endblock %}
