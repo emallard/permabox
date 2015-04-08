@@ -32,7 +32,7 @@ class PublicController extends Controller
                 array_push($result, 
                         array( 
                             "name" => $f, 
-                            "url" => DocUtils::slugify($f)));
+                            "url" => '/'.DocUtils::slugify($f)));
             }
         }
         return $result;
