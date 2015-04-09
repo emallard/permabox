@@ -97,7 +97,6 @@ class PublicController extends Controller
 
         if ($error)
         {
-            
             return $this->render('SiteBundle:Default:debug.html.twig', array());
         }
         
@@ -107,6 +106,13 @@ class PublicController extends Controller
             
             if (!isset($zip))
             {
+                
+                // redirect if it ends with '/'
+                if (strlen($uri) > 2 && substr($uri, -1) == '/')
+                {
+                    return $this->redirect(substr($uri, 0, strlen($uri)-1));
+                }
+                
                 
                 $dossier = DocUtils::getFullDossier($currentPath, $relativePath);
                 

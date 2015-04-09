@@ -11,6 +11,7 @@ class DocShort {
 
 class DocFull {
     public $relativePath = "";
+    public $parentUrl = "";
     public $name = "";
     public $description = "";
     public $tags = "";
@@ -62,6 +63,7 @@ public static function getFullDossier($path, $relativePath)
 {
     $docFull  = new DocFull();
     $docFull->relativePath = $relativePath;
+    $docFull->parentUrl = DocUtils::slugify(dirname($relativePath));
     $docFull->name = basename($relativePath);
     $docFull->description = DocUtils::getDescription($path);
     $docFull->tags = DocUtils::getTags($path);
