@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use SiteBundle\DocUtils;
 use SiteBundle\ZipUtils;
@@ -143,32 +144,17 @@ class PublicController extends Controller
                 $filename = tempnam("tmp", "zip");
                 \SiteBundle\ZipUtils::createZipFolder($dirToZip, $filename);
 
-                // Generate response
-                //$response = new Response();
-                $response = new Response(file_get_contents($filename));
+                $response = new BinaryFileResponse($filename);
+                
+                register_shutdown_function('unlink', $filename);
 
-                // Set headers
-                $response->headers->set('Cache-Control', 'private');
-                $response->headers->set('Content-type', mime_content_type($filename));
-                $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($currentPath) . '.zip";');
-                $response->headers->set('Content-length', filesize($filename));
-
-                /*
-                // Send headers before outputting anything
-                $response->sendHeaders();
-                $response->setContent(file_get_contents($filename));
-                */
-
-                unlink($filename);
                 return $response;
             }
         }
         else
         {
             // send file
-            $file = new File($currentPath);
-            $response = new Response(file_get_contents($currentPath));
-            $response->headers->set('Content-Type', $file->getMimeType());
+            $response = new BinaryFileResponse($currentPath);
             return $response;
            
         }
